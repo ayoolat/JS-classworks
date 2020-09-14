@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // input = prompt("Enter your name")
+
+        // do{
+        //     input = prompt("PLEASE, Enter your name")
+        // }
+        // while(!input)
+        // myName(input)
+
+        // function myName(input){
+        //     alert("Good morning " + input + " !")
+        // }
+
+        alert("Welcome to my calculator!")
+        function myCalculator(){
+            option = prompt(`What kind of operation do you want to carry out? 
+                           1-Add 
+                           2-Subtract 
+                           3-Divide 
+                           4-Multiply`);
+
+            if(option == 1){
+                first = prompt("Enter first number");
+                second = prompt("Enter second number");
+                first = Number(first);
+                second = Number(second);
+                add(first, second)
+            }
+
+            else if(option == 2){
+                first = prompt("Enter first number");
+                second = prompt("Enter second number");
+                subtract(first, second)
+            }
+
+            else if(option == 3){
+                first = prompt("Enter first number");
+                second = prompt("Enter second number");
+                divide(first, second)
+            }
+
+            else if(option == 4){
+                first = prompt("Enter first number");
+                second = prompt("Enter second number");
+                multiply(first, second)
+            }
+
+            else{
+                alert("invalid input");
+                myCalculator()
+            }
+        }
+
+        function add(num1, num2){
+            var ans = num1 + num2
+            alert(ans)
+            restart()
+        }
+
+        function subtract(num1, num2){
+            ans = (num1 - num2);
+            alert(ans)
+            restart()
+        }
+
+        function divide(num1, num2){
+            ans = (num1 / num2);
+            alert(ans)
+            restart()
+        }
+
+        function multiply(num1, num2){
+            ans = (num1 * num2);
+            alert(ans)
+            restart()
+        }
+
+        function restart(){
+            input = prompt(`Do you want to restart your operation?
+                            Type 'yes' or 'no'`)
+                            
+            if (input == "yes"){
+                myCalculator()
+            }
+            else if(input == "no"){
+                alert("Good bye!")
+            }
+        }
+ 
+        myCalculator()
+    </script>
+</body>
+</html>

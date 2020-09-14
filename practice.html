@@ -7,78 +7,93 @@
 </head>
 <body>
     <script>
+
+    function airtime(){
+        // prompt purchase options
+        var input = prompt("Welcome! \n1. Airtime-self \n2. Airtime-Others \n3. Data \n4. Transfer");
+
+        // If option 1 is selected (Airtime-self)
+        if (input == 1){
+            airtimeSelf()
+        }
+
+        // If option 2 is selected (Airtime-others)
+        else if (input == 2){  
+            airtimeOthers()
+        } 
+
+        // If option 3 is selected (Data)
+        else if (input == 3){
+            data()
+        } 
         
-        function airtimeSelf(){
-            // Assuming you are crediting the number you are dialing with
-            var input2 = prompt("Enter amount");
-                // Ask if client is sure they want to continue
-                var input3 = prompt("Are you sure you want to credit your line with " + input2 + " Naira? \n Type 'yes' or 'no'");
-                    // if(input3.toLowerCase == "yes") ---- I tried it this way but it jumped right to the else statement
-                    // continue
-                    if(input3 == "yes"){
-                        alert(input2 + " Your account has been credited with " + input2 + " Naira");
-                        var input4 =prompt("Press 0 to go to the main menu");
-                        if (input4 == 0){
-                            airtime()
-                        }else{
-                            alert("Invalid input: Session terminated")
-                        }
-                    }else{
-                        // End session
-                        alert("Session terminated")
-                    }
+        // If option 4 is selected (Transfer)
+        else if(input == 4){
+            transfer()
         }
-
-        function airtimeOthers(){
-            var input2 = prompt("Enter number of other");
-                    // Check if number is up to 11 digits, yes? continue
-                    if (input2.length == 11){
-                        var input3 = prompt("Enter amount");
-                        // Ask if client is sure they want to continue
-                        var input4 = prompt("Are you sure you want to credit this line with " + input3 + " Naira? \n Type 'yes' or 'no'");
-                        if(input4 == "yes"){
-                            alert(input2 + " has been credited with " + input3 + " Naira");
-                            var input5 =prompt("Press 0 to go to the main menu");
-                            if (input5 == 0){
-                                airtime()
-                            }else{
-                                alert("Invalid input: Session terminated")
-                            }
-                        }else{                        
-                            alert("Session terminated")
-                        } 
-                    // not up to 11 digits? Invalid number
-                    }else{
-                        alert("invalid Number");
-                    }
+        
+        else{
+            prompt("Incorrect input!");
+            airtime()
         }
+    }
+        
+    airtime();
+        
+    // If option 1 is selected (Airtime-self)
+    function airtimeSelf(){
+        // Assuming you are crediting the number you are dialing with
+        var input2 = prompt("Enter amount");
+            // Ask if client is sure they want to continue
+            var input3 = prompt("Are you sure you want to credit your line with " + input2 + " Naira? \n Type 'yes' or 'no'");
+                // if(input3.toLowerCase == "yes") ---- I tried it this way but it jumped right to the else statement
+                // continue
+                if(input3 == "yes"){
+                    alert(input2 + " Your account has been credited with " + input2 + " Naira");
+                    var input4 =prompt("Press 0 to go to the main menu");
+                    if (input4 == 0){
+                        airtime()
+                    }else{
+                        alert("Invalid input: Session terminated")
+                    }
+                }else{
+                    // End session
+                    alert("Session terminated")
+                }
+    }
 
-        function data(){
-            var input2 = prompt("Enter amount (Enter data in megabytes)");
-                // Ask if client is sure they want to continue
-                var input3 = prompt("Are you sure you want to credit this line with " + input2 + " mb \n Type 'yes' or 'no'");
-                    if(input3 == "yes"){
-                        alert(input2 + " has been credited with " + input2 + " mb");
+    // If option 2 is selected (Airtime-others)
+    function airtimeOthers(){
+        var input2 = prompt("Enter number of other");
+                // Check if number is up to 11 digits, yes? continue
+                if (input2.length == 11){
+                    var input3 = prompt("Enter amount");
+                    // Ask if client is sure they want to continue
+                    var input4 = prompt("Are you sure you want to credit this line with " + input3 + " Naira? \n Type 'yes' or 'no'");
+                    if(input4 == "yes"){
+                        alert(input2 + " has been credited with " + input3 + " Naira");
                         var input5 =prompt("Press 0 to go to the main menu");
                         if (input5 == 0){
                             airtime()
                         }else{
                             alert("Invalid input: Session terminated")
                         }
-                    }else{
-                        alert("Session terminated");
-                    }
-        }
+                    }else{                        
+                        alert("Session terminated")
+                    } 
+                // not up to 11 digits? Invalid number
+                }else{
+                    alert("invalid Number");
+                }
+    }
 
-        function transfer(){
-            var input2 = prompt("Enter account number");
-            // Check if number is up to 9 digits, yes? continue
-            if (input2.length == 10){
-                var input3 = prompt("enter amount");
+    // If option 3 is selected (Data)
+    function data(){
+        var input2 = prompt("Enter amount (Enter data in megabytes)");
             // Ask if client is sure they want to continue
-                var input4 = prompt("Are you sure you want to credit account number - " + input2 +  " with " + input3 + " Naira \nType yes or no");
-                if(input4 == "yes"){
-                    alert(input2 + " has been credited with " + input3 + "Naira");
+            var input3 = prompt("Are you sure you want to credit this line with " + input2 + " mb \n Type 'yes' or 'no'");
+                if(input3 == "yes"){
+                    alert(input2 + " has been credited with " + input2 + " mb");
                     var input5 =prompt("Press 0 to go to the main menu");
                     if (input5 == 0){
                         airtime()
@@ -86,45 +101,36 @@
                         alert("Invalid input: Session terminated")
                     }
                 }else{
-                    alert("Session terminated")
+                    alert("Session terminated");
                 }
-            // not up to 11 digits? Invalid account number
+    }
+
+    // If option 4 is selected (Transfer)
+    function transfer(){
+        var input2 = prompt("Enter account number");
+        // Check if number is up to 9 digits, yes? continue
+        if (input2.length == 10){
+            var input3 = prompt("enter amount");
+        // Ask if client is sure they want to continue
+            var input4 = prompt("Are you sure you want to credit account number - " + input2 +  " with " + input3 + " Naira \nType yes or no");
+            if(input4 == "yes"){
+                alert(input2 + " has been credited with " + input3 + "Naira");
+                var input5 =prompt("Press 0 to go to the main menu");
+                if (input5 == 0){
+                    airtime()
+                }else{
+                    alert("Invalid input: Session terminated")
+                }
             }else{
-                alert("invalid Account Number");
+                alert("Session terminated")
             }
+        // not up to 11 digits? Invalid account number
+        }else{
+            alert("invalid Account Number");
         }
+    }
 
-        function airtime(){
-            // prompt purchase options
-            var input = prompt("Welcome! \n1. Airtime-self \n2. Airtime-Others \n3. Data \n4. Transfer");
-
-            // If option 1 is selected (Airtime-self)
-            if (input == 1){
-                airtimeSelf()
-            }
-
-            // If option 2 is selected (Airtime-others)
-            else if (input == 2){  
-               airtimeOthers()
-            } 
-
-            // If option 3 is selected (Data)
-            else if (input == 3){
-                data()
-            } 
-            
-            // If option 4 is selected (Transfer)
-            else if(input == 4){
-                transfer()
-            }
-            
-            else{
-                prompt("Incorrect input!");
-                airtime()
-            }
-        }
-        
-        airtime();
+       
     </script>
 </body>
 </html>

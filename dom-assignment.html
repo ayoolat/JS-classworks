@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" , initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    table{
+        margin: 50px auto;
+        padding: 20px;
+        width: 80%;
+    }
+
+    td{
+        padding: 7px 5px;
+    }
+
+    td:not(last-child){
+        border-right: solid 1px black;
+        border-bottom: solid 1px black;
+        border-radius: 5px;
+    }
+
+    table #rows tr:nth-of-type(odd){
+        background-color:  lightgray;
+    }
+
+    input{
+        outline: none;
+        border-radius: 10px;
+        border: none;
+        background-color: lightblue;
+        padding: 10px;
+        display: flex;
+        margin: 50px auto;
+        box-shadow: 5px 5px 20px rgba(0,0,0,0.2);
+    }
+
+    input:hover{
+        cursor: pointer;
+        opacity: 0.7;
+    }
+</style>
+<body>
+    <table id="myTable">
+        <!-- Table heading -->
+        <tr>
+            <td>S/N</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Number</td>
+            <td>Location</td>
+        </tr>
+        <tbody id="rows">
+            <!-- dynamic table here -->
+        </tbody>
+
+        <!-- Input new company details -->
+        <input type="submit" value="Add company" onclick="addComp()">
+
+    </table>
+    
+    <script>
+        // ***********list of companies********
+        companies = [
+
+        {
+        "name": "Pace time-sheet",
+        "Email": "hi@pace.com",
+        "number": 0904678282,
+        "Location": "Abuja"
+        },
+
+        {
+        "name": "Bascom",
+        "Email":"whatisbascom@yahoo.com",
+        "number": 0904678282,
+        "Location":"Abuja"
+        },
+
+        {
+        "name": "Pace time-sheet",
+        "Email": "hi@pace.com",
+        "number": 0904678282,
+        "Location": "Abuja"
+        }
+
+        ]
+
+        // *****add new company to list (List gets appended to main companies list but I've been unable to get the addition to display as the page needs to reload for added company to display)
+        function addComp(){
+            alert("clicked!")
+            
+            newcomp = {
+            "name": prompt("Enter company name"),
+            "Email": prompt("Enter company email"),
+            "number": prompt("Enter company phone number"),
+            "Location": prompt("Enter company location")
+            }
+
+            // Add inputed company details to 'companies' list 
+            companies.push(newcomp)
+           
+        }
+
+        // select table body tag
+        let row = document.getElementById("rows")
+
+        // loop through values in companies dictionary
+        for( i = 0; i < companies.length; i++ ) {
+            row.innerHTML += `
+            <tr>
+                <td> ${i + 1}</td>
+                <td> ${companies[i].name}</td>
+                <td> ${companies[i].Email} </td> 
+                <td> ${companies[i].number} </td> 
+                <td> ${companies[i].Location} </td>
+
+            </tr>`  
+        }
+
+    </script>
+</body>
+</html>

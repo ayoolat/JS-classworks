@@ -55,9 +55,6 @@
         margin: auto;
         width: 50%;
     }
-    form{
-        margin: 40px 50px;
-    }
     input{
         margin: 10px 5px;
         border-radius: 10px;
@@ -70,11 +67,14 @@
         width: 100px;
         margin: auto;
     }
+    #edit-form{
+        display: none;
+    }
 </style>
 <body>
     <button id="add" >Add new User</button>
     <div id="user-form">
-        <div action="">
+        <form action="">
             <label for="name">name</label> <br>
             <input type="text" placeholder="name" id="name"> <br>
             <label for="name">Image</label> <br>
@@ -84,9 +84,9 @@
             <label for="name">Phone Number</label> <br>
             <input type="text" placeholder="Phone Number" id="number"> <br>
             <button id="submit" onclick="updateInternal()"> submit</button>
-           
-        </div>
+        </form>
     </div>
+   
     <div id="users">
 
     </div>
@@ -115,20 +115,10 @@
         }
     ]
 
-    add = ''
+    
+    displayUsers()
 
-    for(i = 0; i < adminUsers.length; i++){
-        add += `<div class="user" id="${i}">
-        <p> <strong>Name:</strong> ${adminUsers[i].name}<p/>
-        <img src="${adminUsers[i].Image}"></img>
-        <p> <strong></strong>Position:</strong> ${adminUsers[i].Position}</p>
-        <p> <strong>Phone Number:</strong> ${adminUsers[i].Number}</p>
-        <button class="delete" onclick="deleteUser(${i})">Delete</button> <button class="edit">Edit</button>
-        </div>
-        <hr>  `
-    }
-    document.getElementById("users").innerHTML = add
-
+        // displays form for new Users
     function addUser(){
         let adds = document.getElementById("add");
         let newUser = document.getElementById("user-form");
@@ -141,44 +131,88 @@
             }
         })
     }
- 
+    
+    // Adds new user and displays the new user
     function updateInternal(){
         let submit = document.getElementById("submit").value
-        let names = document.getElementById("name").value
+        let name = document.getElementById("name").value
         let image =  document.getElementById("image").value
         let position =  document.getElementById("position").value
         let phoneNumber =  document.getElementById("number").value
 
         let addNewUser = {
-            "names" : names,
+            "name" : name,
             "Image" : image,
             "Position" : position,
             "Number" : phoneNumber
         }
-        // alert(JSON.stringify(addNewUser))
         adminUsers.push(addNewUser);
+        displayUsers()
+    } 
 
-            // for(i = add.length-1; i < add.length; i++){
+    function displayUsers(){
+        add = ''
+
+        for(i = 0; i < adminUsers.length; i++){
             add += `<div class="user" id="${i}">
-            <p> <strong>Name:</strong> ${addNewUser.names}<p/>
-            <img src="${addNewUser.Image}"></img>
-            <p> <strong></strong>Position:</strong> ${addNewUser.Position}</p>
-            <p> <strong>Phone Number:</strong> ${addNewUser.Number}</p>
-            <button class="delete" onclick="deleteUser(${i})">Delete</button> <button class="edit">Edit</button> <hr style="margin:0;">`
-        // console.log(phoneNumber)
-        alert(JSON.stringify(addNewUser))
+            <p> <strong>Name:</strong> ${adminUsers[i].name}<p/>
+            <img src="${adminUsers[i].Image}"></img>
+            <p> <strong></strong>Position:</strong> ${adminUsers[i].Position}</p>
+            <p> <strong>Phone Number:</strong> ${adminUsers[i].Number}</p>
+            <button class="delete" onclick="deleteUser(${i})">Delete</button> <button class="edit" onclick="showEditForm()">Edit</button>
+            <div action="" id="edit-form">
+            <label for="name">name</label> <br>
+            <input type="text" placeholder="name" value="" id="name-edit"> <br>
+            <label for="name">Image</label> <br>
+            <input type="text" placeholder="Image" id="image-edit"> <br>
+            <label for="name">Position</label> <br>
+            <input type="text" placeholder="Position" id="position-edit"> <br>
+            <label for="name">Phone Number</label> <br>
+            <input type="text" placeholder="Phone Number" id="number-edit"> <br>
+            <button id="submit" onclick="editUser(${i})"> submit</button>
+            </div>
+            <hr> 
+            </div> `
+        }
         document.getElementById("users").innerHTML = add
 
-        // /}
-        } 
+        alert(JSON.stringify(adminUsers))
+    }
 
+    // Show edit user details form
+    function showEditForm(me){
+        let editUser = document.getElementById("edit-form");
+        var id = me
+        // User details only display on the the first index, hence, only first user can edit details. I'm still trying to figure it out
+        if (editUser.style.display === "none") {
+                editUser.style.display = "block";
+            } else {
+                editUser.style.display = "none";
+        }
+    }
+   
+    function editUser(me){
+        let names = document.getElementById("name-edit").value
+        let image =  document.getElementById("image-edit").value
+        let positions =  document.getElementById("position-edit").value
+        let phoneNumbers =  document.getElementById("number-edit").value
+       
+        // changes the details in the object to the edidted details
+        adminUsers[me].name = names
+        adminUsers[me].image = Image
+        adminUsers[me].Position = positions
+        adminUsers[me].Number = phoneNumbers   
+        displayUsers()
+    }
+
+    // Deletes the user details
     function deleteUser(me){
         deletes = document.getElementById(me);
-        deletes.remove()
-    }     
-// deleteUser()
-updateInternal()
-addUser()
+        adminUsers.splice(me, 1)
+        displayUsers()
+    }
+
+    addUser()
 </script>
 </body>
 </html>

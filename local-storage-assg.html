@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .edit, .delete{
+        border-radius: 10px;
+        outline: none;
+        border: none;
+        padding: 10px;
+        cursor: pointer; 
+        width: 100px;
+        margin: 5px 10px 20px 1px;
+    }
+    .edit{
+        background-color: lightblue;
+    }
+    .delete{
+        background-color: red;   
+    }
+    #add{
+        background-color: green;
+        border-radius: 10px;
+        outline: none;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+    #users{
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        width: 60%;
+        padding: 50px 0;
+    }
+    #users{
+        background-color: #f2f2f2;
+    }
+    .user{
+        margin: auto;
+    }
+    hr{
+        margin: 0 70px;
+        color: darkgray;
+    } 
+    img{
+        height: 200px;
+        width: 40%;
+    }
+    #user-form{
+        display: none;
+        margin: auto;
+        width: 50%;
+    }
+    input{
+        margin: 10px 5px;
+        border-radius: 10px;
+        outline: none;
+        padding: 10px 5px;
+        width: 400px;
+        border: solid 1px #f2f2f2;
+    }
+    #submit{
+        width: 100px;
+        margin: auto;
+    }
+    #edit-form{
+        display: none;
+    }
+</style>
+<body>
+    <button id="add" >Add new User</button>
+    <div id="user-form">
+        <form action="">
+            <label for="name">name</label> <br>
+            <input type="text" placeholder="name" id="name"> <br>
+            <label for="name">Image</label> <br>
+            <input type="text" placeholder="Image" id="image"> <br>
+            <label for="name">Position</label> <br>
+            <input type="text" placeholder="Position" id="position"> <br>
+            <label for="name">Phone Number</label> <br>
+            <input type="text" placeholder="Phone Number" id="number"> <br>
+            <button id="submit" onclick="updateInternal()"> submit</button>
+        </form>
+    </div>
+   
+    <div id="users">
+
+    </div>
+<script>
+    
+    var adminUsers = [
+        {
+            "name" : "Aisha",
+            "Image" : "",
+            "Position" : "Frontend Developer",
+            "Number" : "0834576423"
+        },
+
+        {
+            "name" : "Sophia",
+            "Image" : "",
+            "Position" : "backend Developer",
+            "Number" : "0833442423"
+        },
+
+        {
+            "name" : "Tolu",
+            "Image" : "",
+            "Position" : "Backend Developer",
+            "Number" : "0813546423"
+        }
+    ]
+
+    
+    if(adminUsers = JSON.parse(localStorage.getItem("adminUsers")) != adminUsers){
+        adminUsers = JSON.parse(localStorage.getItem("adminUsers"))
+    }else{
+        adminUsers
+    }
+    localStorage.setItem("adminUsers",  JSON.stringify(adminUsers))
+
+    
+    displayUsers()
+
+        // displays form for new Users
+    function addUser(){
+        let adds = document.getElementById("add");
+        let newUser = document.getElementById("user-form");
+        
+        adds.addEventListener('click', function (event){
+            if (newUser.style.display === "none") {
+                newUser.style.display = "block";
+            } else {
+                newUser.style.display = "none";
+            }
+        })
+    }
+    
+    // Adds new user and displays the new user
+    function updateInternal(){
+        let submit = document.getElementById("submit").value
+        let name = document.getElementById("name").value
+        let image =  document.getElementById("image").value
+        let position =  document.getElementById("position").value
+        let phoneNumber =  document.getElementById("number").value
+
+        let addNewUser = {
+            "name" : name,
+            "Image" : image,
+            "Position" : position,
+            "Number" : phoneNumber
+        }
+        adminUsers.push(addNewUser);
+        // Adds new user to local storage
+        localStorage.setItem("adminUsers",  JSON.stringify(adminUsers))
+        displayUsers()
+    } 
+
+    function displayUsers(){
+        add = ''
+
+        for(i = 0; i < adminUsers.length; i++){
+            add += `<div class="user" id="${i}">
+            <p> <strong>Name:</strong> ${adminUsers[i].name}<p/>
+            <img src="${adminUsers[i].Image}"></img>
+            <p> <strong></strong>Position:</strong> ${adminUsers[i].Position}</p>
+            <p> <strong>Phone Number:</strong> ${adminUsers[i].Number}</p>
+            <button class="delete" onclick="deleteUser(${i})">Delete</button> <button class="edit" onclick="showEditForm()">Edit</button>
+            <div action="" id="edit-form">
+            <label for="name">name</label> <br>
+            <input type="text" placeholder="name" value="" id="name-edit"> <br>
+            <label for="name">Image</label> <br>
+            <input type="text" placeholder="Image" id="image-edit"> <br>
+            <label for="name">Position</label> <br>
+            <input type="text" placeholder="Position" id="position-edit"> <br>
+            <label for="name">Phone Number</label> <br>
+            <input type="text" placeholder="Phone Number" id="number-edit"> <br>
+            <button id="submit" onclick="editUser(${i})"> submit</button>
+            </div>
+            <hr> 
+            </div> `
+        }
+        document.getElementById("users").innerHTML = add
+        alert(JSON.stringify(adminUsers))
+    }
+
+    // Show edit user details form
+    function showEditForm(me){
+        let editUser = document.getElementById("edit-form");
+        // User details only display on the the first index, hence, only first user can edit details. I'm still trying to figure it out
+        if (editUser(me).style.display === "none") {
+                editUser(me).style.display = "block";
+            } else {
+                editUser(me).style.display = "none";
+        }
+    }
+   
+    function editUser(me){
+        let names = document.getElementById("name-edit").value
+        let image =  document.getElementById("image-edit").value
+        let positions =  document.getElementById("position-edit").value
+        let phoneNumbers =  document.getElementById("number-edit").value
+       
+        // changes the details in the object to the edidted details
+        adminUsers[me].name = names
+        adminUsers[me].image = Image
+        adminUsers[me].Position = positions
+        adminUsers[me].Number = phoneNumbers   
+        localStorage.setItem("adminUsers",  JSON.stringify(adminUsers))
+        displayUsers()
+    }
+
+    // Deletes the user details
+    function deleteUser(me){
+        deletes = document.getElementById(me);
+        adminUsers.splice(me, 1)
+        localStorage.setItem("adminUsers",  JSON.stringify(adminUsers))
+        displayUsers()
+    }
+
+    addUser()
+</script>
+</body>
+</html>

@@ -6,7 +6,8 @@
     <title>Document</title>
 </head>
 <style>
-    .edit, .delete{
+    /* All buttons template */
+    .edit, .delete, #submit, #search, #search-all, #search-part, #search-all-include, #add{
         border-radius: 10px;
         outline: none;
         border: none;
@@ -15,19 +16,33 @@
         width: 100px;
         margin: 5px 10px 20px 1px;
     }
+    #search-all-include{
+        width: 120px;
+    }
+    #search, #search-all, #search-part, #search-all-include{
+        background-color: darkgray;   
+    }
+    /* Search bar */
+    #details{
+        width: 200px;
+    }
+    /* edit button */
     .edit{
         background-color: lightblue;
     }
+    /* delete button */
     .delete{
         background-color: red;   
     }
+    /* Add button container */
+    #add-button{
+        margin: auto;
+        width: 20%;
+    }
+    /* Add button */
     #add{
         background-color: green;
-        border-radius: 10px;
-        outline: none;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
+        width: 120px;
     }
     #users{
         display: flex;
@@ -35,25 +50,29 @@
         margin: auto;
         width: 60%;
         padding: 50px 0;
-    }
-    #users{
         background-color: #f2f2f2;
+
     }
     .user{
         margin: auto;
+        display: flex;
+        /* flex-direction: column; */
+        justify-content: center;
+        align-items: center;
     }
     hr{
-        margin: 0 70px;
-        color: darkgray;
+        margin: 20px auto;
+        width: 400px;
+        color: black;
     } 
+    /* Image template */
     img{
         height: 200px;
-        width: 40%;
     }
     #user-form{
         display: none;
         margin: auto;
-        width: 50%;
+        width: 40%;
     }
     input{
         margin: 10px 5px;
@@ -67,12 +86,41 @@
         width: 100px;
         margin: auto;
     }
-    #edit-form{
+    /* Edit user form */
+    .edit-form{
         display: none;
+        margin: 10px 150px;
+    }
+    /* delete and edit button container */
+    .buttons{
+        display: flex;
+    }
+    /* Image container */
+    .images{
+        width: 40%;
+        margin: auto;
+    }
+    /* submit button */
+    #submit{
+        background-color: green;
+    }
+    /* .background{
+        background-color: darkgrey;
+    } */
+    #UserNotFound{
+        width: 15%;
+        border: darkgrey 2px solid;
+        padding: 0 10px;
+        display: none;
+    }
+    #otherItems{
+        width: 50%;
     }
 </style>
 <body>
-    <button id="add" >Add new User</button>
+    <div id="add-button"><button id="add" >Add new User</button> <br></div>
+    <input id="details" onclick="removeNotfound()" type="text" placeholder="search"> <button id="search" onclick="findUser()">search</button> <button id="search-all" onclick="findAllUser()">Search all</button> <button id="search-all-include" onclick="findAllUserInclude()">Search Include</button>
+    <div id="UserNotFound">User not found</div>
     <div id="user-form">
         <form action="">
             <label for="name">name</label> <br>
@@ -91,31 +139,10 @@
 
     </div>
 <script>
-    
-    var adminUsers = [
-        {
-            "name" : "Aisha",
-            "Image" : "",
-            "Position" : "Frontend Developer",
-            "Number" : "0834576423"
-        },
+    // Declaration of list
+    var adminUsers = []
 
-        {
-            "name" : "Sophia",
-            "Image" : "",
-            "Position" : "backend Developer",
-            "Number" : "0833442423"
-        },
-
-        {
-            "name" : "Tolu",
-            "Image" : "",
-            "Position" : "Backend Developer",
-            "Number" : "0813546423"
-        }
-    ]
-
-    
+    // Check to affirm local storage content and set list into local storage
     if(adminUsers = JSON.parse(localStorage.getItem("adminUsers")) != adminUsers){
         adminUsers = JSON.parse(localStorage.getItem("adminUsers"))
     }else{
@@ -123,14 +150,55 @@
     }
     localStorage.setItem("adminUsers",  JSON.stringify(adminUsers))
 
-    
-    displayUsers()
+    // Display all admin users in list
+    displayUsers(adminUsers)
 
-        // displays form for new Users
-    function addUser(){
-        let adds = document.getElementById("add");
-        let newUser = document.getElementById("user-form");
-        
+
+
+    // global variables
+    let adds = document.getElementById("add");
+    let newUser = document.getElementById("user-form");
+    let UserNotFound = document.getElementById("UserNotFound");
+
+
+
+// All functions are declared here below
+
+
+
+    // Displays all users in given list
+function displayUsers(user){
+        add = ''
+
+        for(i = 0; i < user.length; i++){
+            add += `<div id="${i}">
+            <div class="user" >
+            <div class="images"><img src="${user[i].Image}"></img></div>
+            <div id="otherItems"><p><strong>Name:</strong>${user[i].name}</p>
+            <p> <strong>Position:</strong> ${user[i].Position}</p>
+            <p> <strong>Phone Number:</strong> ${user[i].Number}</p>
+            <div class="buttons"><button class="delete" onclick="deleteUser(${i})">Delete</button> <button class="edit" onclick="showEditForm(${i})">Edit</button></div>
+            </div>
+            </div>
+            <div action="" class="edit-form "id="edit-form${i}">
+            <label for="name">name</label> <br>
+            <input type="text" placeholder="name" value="" id="name-edit${i}"> <br>
+            <label for="name">Image</label> <br>
+            <input type="text" placeholder="Image" id="image-edit${i}"> <br>
+            <label for="name">Position</label> <br>
+            <input type="text" placeholder="Position" id="position-edit${i}"> <br>
+            <label for="name">Phone Number</label> <br>
+            <input type="text" placeholder="Phone Number" id="number-edit${i}"> <br>
+            <button id="submit" onclick="editUser(${i})"> submit</button>
+            </div>
+            </div>
+            <hr>`
+        }
+        document.getElementById("users").innerHTML = add
+    }
+
+    // displays form to add new Users
+    function addUser(){    
         adds.addEventListener('click', function (event){
             if (newUser.style.display === "none") {
                 newUser.style.display = "block";
@@ -143,13 +211,12 @@
     // Adds new user and displays the new user
     function updateInternal(){
         let submit = document.getElementById("submit").value
-        let name = document.getElementById("name").value
+        let names = document.getElementById("name").value
         let image =  document.getElementById("image").value
         let position =  document.getElementById("position").value
         let phoneNumber =  document.getElementById("number").value
-
         let addNewUser = {
-            "name" : name,
+            "name" : names,
             "Image" : image,
             "Position" : position,
             "Number" : phoneNumber
@@ -157,70 +224,94 @@
         adminUsers.push(addNewUser);
         // Adds new user to local storage
         localStorage.setItem("adminUsers",  JSON.stringify(adminUsers))
+        // Displays all users
         displayUsers()
     } 
-
-    function displayUsers(){
-        add = ''
-
-        for(i = 0; i < adminUsers.length; i++){
-            add += `<div class="user" id="${i}">
-            <p> <strong>Name:</strong> ${adminUsers[i].name}<p/>
-            <img src="${adminUsers[i].Image}"></img>
-            <p> <strong></strong>Position:</strong> ${adminUsers[i].Position}</p>
-            <p> <strong>Phone Number:</strong> ${adminUsers[i].Number}</p>
-            <button class="delete" onclick="deleteUser(${i})">Delete</button> <button class="edit" onclick="showEditForm()">Edit</button>
-            <div action="" id="edit-form">
-            <label for="name">name</label> <br>
-            <input type="text" placeholder="name" value="" id="name-edit"> <br>
-            <label for="name">Image</label> <br>
-            <input type="text" placeholder="Image" id="image-edit"> <br>
-            <label for="name">Position</label> <br>
-            <input type="text" placeholder="Position" id="position-edit"> <br>
-            <label for="name">Phone Number</label> <br>
-            <input type="text" placeholder="Phone Number" id="number-edit"> <br>
-            <button id="submit" onclick="editUser(${i})"> submit</button>
-            </div>
-            <hr> 
-            </div> `
-        }
-        document.getElementById("users").innerHTML = add
-        alert(JSON.stringify(adminUsers))
-    }
-
-    // Show edit user details form
+    
+    // Show edit user details form each individual every user
     function showEditForm(me){
-        let editUser = document.getElementById("edit-form");
-        // User details only display on the the first index, hence, only first user can edit details. I'm still trying to figure it out
-        if (editUser(me).style.display === "none") {
-                editUser(me).style.display = "block";
+        let editUser = document.getElementById("edit-form" + me);
+        if (editUser.style.display === "none") {
+                editUser.style.display = "block";
             } else {
-                editUser(me).style.display = "none";
+                editUser.style.display = "none";
         }
     }
    
+    // Updates user details with edited details
     function editUser(me){
-        let names = document.getElementById("name-edit").value
-        let image =  document.getElementById("image-edit").value
-        let positions =  document.getElementById("position-edit").value
-        let phoneNumbers =  document.getElementById("number-edit").value
+        let names = document.getElementById("name-edit" + me).value
+        let image =  document.getElementById("image-edit" + me).value
+        let positions =  document.getElementById("position-edit" + me).value
+        let phoneNumbers =  document.getElementById("number-edit" + me).value
        
-        // changes the details in the object to the edidted details
+        // changes the details in the object to the edited details
         adminUsers[me].name = names
-        adminUsers[me].image = Image
+        adminUsers[me].Image = image
         adminUsers[me].Position = positions
         adminUsers[me].Number = phoneNumbers   
         localStorage.setItem("adminUsers",  JSON.stringify(adminUsers))
-        displayUsers()
+        displayUsers(adminUsers)
     }
 
     // Deletes the user details
     function deleteUser(me){
-        deletes = document.getElementById(me);
+        let deletes = document.getElementById(me);
         adminUsers.splice(me, 1)
         localStorage.setItem("adminUsers",  JSON.stringify(adminUsers))
-        displayUsers()
+        displayUsers(adminUsers)
     }
+
+    // Find User with precise inputed Name(Single user)
+    function findUser(){
+        let details = document.getElementById("details").value
+        found = []
+        found.push(adminUsers.find(x => (x.name).toLowerCase() == details.toLowerCase()))
+        if(found == null || found == undefined || found == ""){  
+            UserNotFound.style.display = "block"
+        }
+        else{
+            // Display found user
+            displayUsers(found)
+        }
+    }
+
+    // Finds all users with inputed name
+    function findAllUser(){
+        let details = document.getElementById("details").value
+        found = (adminUsers.filter(x => (x.name).toLowerCase() == details.toLowerCase()))
+        if(found == null || found == undefined || found == ""){
+            UserNotFound.style.display =" block"
+        }
+        else{
+            displayUsers(found)
+        }
+        // alert(JSON.stringify(found))
+    }
+    
+    // Removes User not found div when search input is clicked
+    function removeNotfound(){
+        if(UserNotFound.style.display =" block"){
+            UserNotFound.style.display = "none"
+        }
+        else{UserNotFound.style.display = "none"
+        }
+        document.location.reload(true)
+
+    }
+
+    // FInds al users including details inputed
+    function findAllUserInclude(){
+        let details = document.getElementById("details").value
+        found = adminUsers.filter(x => ((x.name).toLowerCase()).includes(details.toLowerCase()))
+        if(found == null || found == undefined || found == ""){
+            UserNotFound.style.display =" block"
+        }
+        else{
+            displayUsers(found)
+        }
+    }
+
 
     addUser()
 </script>

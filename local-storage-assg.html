@@ -139,16 +139,23 @@
 
     </div>
 <script>
+    
     // Declaration of list
-    var adminUsers = []
+
+   
+
+
 
     // Check to affirm local storage content and set list into local storage
-    if(adminUsers = JSON.parse(localStorage.getItem("adminUsers")) != adminUsers){
         adminUsers = JSON.parse(localStorage.getItem("adminUsers"))
-    }else{
-        adminUsers
+   
+    // localStorage.setItem("adminUsers",  JSON.stringify(adminUsers))
+        originalUsers = JSON.parse(localStorage.getItem("adminUsers"))
+
+    if(adminUsers == null){
+        adminUsers=[]
     }
-    localStorage.setItem("adminUsers",  JSON.stringify(adminUsers))
+
 
     // Display all admin users in list
     displayUsers(adminUsers)
@@ -162,12 +169,12 @@
 
 
 
-// All functions are declared here below
+    // All functions are declared here below
 
 
 
     // Displays all users in given list
-function displayUsers(user){
+    function displayUsers(user){
         add = ''
 
         for(i = 0; i < user.length; i++){
@@ -225,7 +232,7 @@ function displayUsers(user){
         // Adds new user to local storage
         localStorage.setItem("adminUsers",  JSON.stringify(adminUsers))
         // Displays all users
-        displayUsers()
+        displayUsers(adminUsers)
     } 
     
     // Show edit user details form each individual every user
@@ -244,28 +251,43 @@ function displayUsers(user){
         let image =  document.getElementById("image-edit" + me).value
         let positions =  document.getElementById("position-edit" + me).value
         let phoneNumbers =  document.getElementById("number-edit" + me).value
+
+        if(found[me] == undefined || found[me] == null || found[me] == ""){
+            userIndex = originalUsers.findIndex(x => x.name == adminUsers[me].name)
+        }else{
+            userIndex = originalUsers.findIndex(x => x.name == found[me].name)
+
+        }
        
         // changes the details in the object to the edited details
-        adminUsers[me].name = names
-        adminUsers[me].Image = image
-        adminUsers[me].Position = positions
-        adminUsers[me].Number = phoneNumbers   
-        localStorage.setItem("adminUsers",  JSON.stringify(adminUsers))
+        originalUsers[userIndex].name = names
+        originalUsers[userIndex].Image = image
+        originalUsers[userIndex].Position = positions
+        originalUsers[userIndex].Number = phoneNumbers  
+        adminUsers = originalUsers
+
+        localStorage.setItem("adminUsers",  JSON.stringify(originalUsers))
         displayUsers(adminUsers)
     }
 
     // Deletes the user details
     function deleteUser(me){
-        let deletes = document.getElementById(me);
-        adminUsers.splice(me, 1)
-        localStorage.setItem("adminUsers",  JSON.stringify(adminUsers))
+
+        if(found[me] == undefined || found[me] == null || found[me] == ""){
+            userIndex = originalUsers.findIndex(x => x.name == adminUsers[me].name)
+        }else{
+            userIndex = originalUsers.findIndex(x => x.name == found[me].name)
+        }
+        originalUsers.splice(userIndex, 1)
+        localStorage.setItem("adminUsers",  JSON.stringify(originalUsers))
         displayUsers(adminUsers)
     }
+
+    found = []
 
     // Find User with precise inputed Name(Single user)
     function findUser(){
         let details = document.getElementById("details").value
-        found = []
         found.push(adminUsers.find(x => (x.name).toLowerCase() == details.toLowerCase()))
         if(found == null || found == undefined || found == ""){  
             UserNotFound.style.display = "block"
@@ -296,8 +318,7 @@ function displayUsers(user){
         }
         else{UserNotFound.style.display = "none"
         }
-        document.location.reload(true)
-
+        // document.location.reload(true)
     }
 
     // FInds al users including details inputed

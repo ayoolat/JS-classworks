@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    div{
+        height: 400px;
+        width: 400px;
+        background-color: #f2f2f2;
+        margin: auto;
+    }
+
+    img{
+        height: 100px;
+        width: 100px;
+        margin: 10px;
+    }
+    button{
+        border: none;
+        outline: none;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: brown;
+        margin: 10px;
+    }
+</style>
+<body>
+    <div id="parentBox" ondragover="dropAble(event)">
+
+    </div>
+
+    <img id="drop1" src="./8.gif" alt="" draggable="true" ondragend="drop(event)">
+    <img id="drop2" src="./avatar.png" alt="" draggable="true" ondragend="drop(event)">
+    <button id="drop3" draggable="true" ondragend="drop(event)">Drag me</button>
+
+    <script>
+        function dropAble(e){
+            e.preventDefault()
+        }
+        function drop(e){
+            elementId = e.target.id
+            element = document.getElementById(elementId)
+            parentContainer = document.getElementById("parentBox")
+            parentContainer.appendChild(element);
+        }
+    </script>
+</body>
+</html>

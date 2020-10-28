@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    button{
+        padding: 7px 9px;
+        outline: none;
+        border: none;
+        border-radius: 10px;
+        background-color: black;
+        color: white;
+        cursor: pointer;
+    }
+
+    div{
+        background-color: teal;
+        height: 300px;
+        width: 300px;
+        margin: auto;
+        border-radius: 50%;
+        color: white;
+        animation: 3000ms show linear;
+        display: none;
+    }
+
+    p{
+        height: 16px;
+        /* width: 50px; */
+        margin: auto;
+        padding: 120px;
+        text-align: center;
+        display: none;
+        font-size: 24px;
+    }
+
+    @keyframes show{
+        0%{
+            transform: scale(0);
+        }
+
+        100%{
+            transform: scale(1);
+        }
+    }
+
+</style>
+<body>
+    <button onclick="doSomething()">Click me!</button>
+
+    <div id="tiidelab">
+        <p id="tiidelab-text">TIIDElab</p>
+    </div>
+   <script>
+
+      
+ promise = 
+       promise.then((Response) =>{
+           
+       })
+       function doSomething(){
+            if(document.getElementById('tiidelab').style.display = 'none'){
+            document.getElementById('tiidelab').style.display = 'block'
+            }else{
+            document.getElementById('tiidelab').style.display = 'none'
+            }
+            showText()
+       }
+
+       function showText(){
+            return new Promise((resolve, reject) => {
+               setTimeout(() => {
+                if(document.getElementById('tiidelab-text').style.display = 'none'){
+                document.getElementById('tiidelab-text').style.display = 'block'
+                }else{
+                document.getElementById('tiidelab-text').style.display = 'none'
+                }
+               }, 3000)
+            })
+            
+       }
+   </script> 
+</body>
+</html>

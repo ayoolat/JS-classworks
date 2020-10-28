@@ -58,16 +58,14 @@
 
         
         function doSomething(){
-            async function showCircle(){
+            showCircle()
             const response = await theCircle()
             showCircle().then(() => {
            showText()
-       })
-
-        }
-           
+        })    
        }
-       function theCircle(){
+
+       async function theCircle(){
         if(document.getElementById('tiidelab').style.display = 'none'){
             document.getElementById('tiidelab').style.display = 'block'
             }else{
